@@ -1,0 +1,44 @@
+{
+  "format_version": 2,
+  "items": {
+    "minecraft:netherite_sword": [
+      {
+        "type": "definition",
+        "model": "wafflecore:legend_sword",
+        "bedrock_identifier": "wafflecore:legend_sword",
+        "bedrock_options": {
+          "icon": "wafflecore:legend_sword",
+          "allow_offhand": true,
+          "display_handheld": true,
+          "creative_category": "items"
+        }
+      }
+    ],
+    "minecraft:netherite_axe": [
+      {
+        "type": "definition",
+        "model": "wafflecore:legend_axe",
+        "bedrock_identifier": "wafflecore:legend_axe",
+        "bedrock_options": {
+          "icon": "wafflecore:legend_axe",
+          "allow_offhand": true,
+          "display_handheld": true,
+          "creative_category": "items"
+        }
+      }
+    ],
+    "minecraft:netherite_pickaxe": [
+      {
+        "type": "definition",
+        "model": "wafflecore:legend_hammer",
+        "bedrock_identifier": "wafflecore:legend_hammer",
+        "bedrock_options": {
+          "icon": "wafflecore:legend_hammer",
+          "allow_offhand": true,
+          "display_handheld": true,
+          "creative_category": "items"
+        }
+      }
+    ]
+  }
+}

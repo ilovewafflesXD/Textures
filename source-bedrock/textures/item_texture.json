@@ -1,0 +1,41 @@
+{
+  "resource_pack_name": "wafflemc",
+  "texture_name": "atlas.items",
+  "texture_data": {
+    "wafflecore:legend_sword": {
+      "textures": [
+        "textures/items/legend_sword"
+      ]
+    },
+    "wafflecore:legend_axe": {
+      "textures": [
+        "textures/items/legend_axe"
+      ]
+    },
+    "wafflecore:legend_hammer": {
+      "textures": [
+        "textures/items/legend_hammer"
+      ]
+    },
+    "wafflecore:legend_helmet": {
+      "textures": [
+        "textures/items/legend_helmet"
+      ]
+    },
+    "wafflecore:legend_chestplate": {
+      "textures": [
+        "textures/items/legend_chestplate"
+      ]
+    },
+    "wafflecore:legend_leggings": {
+      "textures": [
+        "textures/items/legend_leggings"
+      ]
+    },
+    "wafflecore:legend_boots": {
+      "textures": [
+        "textures/items/legend_boots"
+      ]
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "wafflecore:waffle"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "wafflecore:waffle"
+      }
+    ]
+  }
+}

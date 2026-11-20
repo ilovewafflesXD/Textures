@@ -223,11 +223,30 @@ for part,(slot,var,layer,prot) in ARMOR.items():
 for layer,leg in (('1',False),('2',True)):
     p=os.path.join(B,'textures','models','armor','waffle_'+layer+'.png'); os.makedirs(os.path.dirname(p),exist_ok=True); worn(leg).save(p)
 w(os.path.join(OUT,'waffle_items.json'),{"format_version":2,"items":maps})
+def add_outlines(J):
+    import shutil
+    O=os.environ.get('OUTLINES_DIR','/tmp/eo')
+    if not os.path.isdir(O): return
+    def cp(src,dst):
+        for root,_,files in os.walk(src):
+            for f in files:
+                if f=='.DS_Store': continue
+                full=os.path.join(root,f); rel=os.path.relpath(full,src); out=os.path.join(dst,rel)
+                os.makedirs(os.path.dirname(out),exist_ok=True); shutil.copyfile(full,out)
+    cp(os.path.join(O,'assets'),os.path.join(J,'assets'))
+    src=json.load(open(os.path.join(O,'pack.mcmeta')))
+    keep=('1-21-1','1-21-5','1-21-6','1-21-9','26-1','26-3')
+    ents=[e for e in src['overlays']['entries'] if e['directory'] in keep]
+    for e in ents: cp(os.path.join(O,e['directory']),os.path.join(J,e['directory']))
+    m=json.load(open(os.path.join(J,'pack.mcmeta')))
+    m['overlays']={'entries':ents}
+    open(os.path.join(J,'pack.mcmeta'),'w').write(json.dumps(m,indent=2)+"\n")
+    shutil.copyfile(os.path.join(O,'credits.txt'),os.path.join(J,'credits.txt'))
 def zipdir(src,dst):
     with zipfile.ZipFile(dst,'w',zipfile.ZIP_DEFLATED) as z:
         for root,_,files in os.walk(src):
             for f in sorted(files):
                 full=os.path.join(root,f); z.write(full,os.path.relpath(full,src).replace(os.sep,'/'))
-zipdir(J,os.path.join(OUT,'WaffleMC-Pack.zip')); zipdir(B,os.path.join(OUT,'WaffleMC-Bedrock.mcpack'))
+add_outlines(J); zipdir(J,os.path.join(OUT,'WaffleMC-Pack.zip')); zipdir(B,os.path.join(OUT,'WaffleMC-Bedrock.mcpack'))
 for f in ('WaffleMC-Pack.zip','WaffleMC-Bedrock.mcpack'):
     d=open(os.path.join(OUT,f),'rb').read(); print(f,len(d),hashlib.sha1(d).hexdigest())

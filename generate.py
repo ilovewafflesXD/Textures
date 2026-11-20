@@ -46,31 +46,56 @@ def sword():
     for i in range(3): put(g,4-i,11+i,'b' if i%2==0 else 'B')
     put(g,1,14,'P')
     return finish(g,False)
+def paint(g,rows,ox=0,oy=0):
+    for y,r in enumerate(rows):
+        for x,c in enumerate(r):
+            if c!='.': put(g,x+ox,y+oy,c)
+def handle(g,x0,y0,x1,y1):
+    n=max(abs(x1-x0),abs(y1-y0))
+    for i in range(n+1):
+        x=x0+(x1-x0)*i//n; y=y0+(y1-y0)*i//n
+        put(g,x,y,'b' if i%2==0 else 'B')
 def axe():
     g=blank()
-    for i in range(9): put(g,2+i,14-i,'b' if i%2==0 else 'B')
-    rows={2:(10,13),3:(9,14),4:(9,14),5:(9,13),6:(10,12),7:(10,11)}
-    for y,(a,b) in rows.items():
-        for x in range(a,b+1): put(g,x,y,'g')
-        put(g,b,y,'p')
-    put(g,11,4,'P')
+    handle(g,1,14,10,5)
+    paint(g,[
+    ".......gggg.....",
+    "....ggggggggp...",
+    "..gggggggggggp..",
+    ".gggPPggggbbgp..",
+    ".ggPPggggbbbp...",
+    "..gggggggbb.....",
+    "...pgggpbb......",
+    ])
     return finish(g)
 def hammer():
     g=blank()
-    for i in range(8): put(g,2+i,14-i,'b' if i%2==0 else 'B')
-    rect(g,5,1,14,6,'g')
-    for x in range(5,15): put(g,x,6,'d')
-    rect(g,5,1,5,6,'p'); rect(g,14,1,14,6,'p')
-    rect(g,9,3,10,4,'P'); put(g,9,3,'h')
+    handle(g,1,14,9,6)
+    paint(g,[
+    "....ggggggg.....",
+    "..ggggPPPgggg...",
+    ".gggp....gggggp.",
+    ".ggp......bgggp.",
+    ".gp.......bbgggp",
+    ".p........bb.ggp",
+    "..........b...pp",
+    ])
     return finish(g)
 def mace():
     g=blank()
-    for i in range(8): put(g,2+i,14-i,'b' if i%2==0 else 'B')
-    rect(g,8,1,13,6,'g'); rect(g,9,0,12,0,'g'); rect(g,9,7,12,7,'g')
-    for x,y in ((7,3),(7,4),(14,3),(14,4),(10,-1),(11,-1)): put(g,x,y,'p')
-    rect(g,10,3,11,4,'P'); put(g,10,3,'h')
-    rect(g,8,6,13,6,'d')
-    return finish(g)
+    handle(g,1,14,8,7)
+    paint(g,[
+    ".......p........",
+    "....p.gggg.p....",
+    "....gggPPggg....",
+    "...pgPPhhPPgp...",
+    "..ggggPhhPgggg..",
+    "...pgPPPPPPgp...",
+    "....gggPPggg....",
+    "....p.gggg.p....",
+    ".......p........",
+    ])
+    return finish(g,False)
 def shovel():
     g=blank()
     for i in range(9): put(g,2+i,14-i,'b' if i%2==0 else 'B')
@@ -152,8 +177,8 @@ prev.save(os.path.join(OUT,'preview.png'))
 w(os.path.join(A,'equipment','waffle.json'),{"layers":{"humanoid":[{"texture":"wafflecore:waffle"}],"humanoid_leggings":[{"texture":"wafflecore:waffle"}]}})
 for d,leg in (('humanoid',False),('humanoid_leggings',True)):
     p=os.path.join(A,'textures','entity','equipment',d,'waffle.png'); os.makedirs(os.path.dirname(p),exist_ok=True); worn(leg).save(p)
-w(os.path.join(B,'manifest.json'),{"format_version":2,"header":{"name":"WaffleMC Items","description":"WaffleMC custom item textures","uuid":"7f1a2c3e-5b6d-4e8f-9a0b-1c2d3e4f5a6b","version":[1,0,3],"min_engine_version":[1,21,0]},
- "modules":[{"type":"resources","uuid":"8e2b3d4f-6c7e-4f90-8b1c-2d3e4f5a6b7c","version":[1,0,3],"description":"textures"}]})
+w(os.path.join(B,'manifest.json'),{"format_version":2,"header":{"name":"WaffleMC Items","description":"WaffleMC custom item textures","uuid":"7f1a2c3e-5b6d-4e8f-9a0b-1c2d3e4f5a6b","version":[1,0,4],"min_engine_version":[1,21,0]},
+ "modules":[{"type":"resources","uuid":"8e2b3d4f-6c7e-4f90-8b1c-2d3e4f5a6b7c","version":[1,0,4],"description":"textures"}]})
 w(os.path.join(B,'textures','item_texture.json'),{"resource_pack_name":"wafflemc","texture_name":"atlas.items","texture_data":bt})
 Image.new('RGBA',(64,64),PAL['g']).save(os.path.join(B,'pack_icon.png'))
 maps={}

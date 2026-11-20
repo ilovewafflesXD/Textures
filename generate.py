@@ -5,6 +5,26 @@ PAL = {
  'o': (36, 22, 10, 255), 'g': (240, 176, 56, 255), 'h': (255, 224, 128, 255), 'd': (184, 116, 26, 255),
  'p': (126, 46, 190, 255), 'P': (190, 120, 255, 255), 'b': (122, 78, 38, 255), 'B': (84, 52, 24, 255), 'e': (96, 20, 140, 255),
 }
+VAN=os.environ.get('VANILLA_DIR','/tmp/van')
+MAP={(35,16,18):(36,22,10),(22,8,20):(36,22,10),(47,33,34):(60,36,16),(50,39,39):(60,36,16),(79,60,62):(150,92,20),
+ (96,52,50):(122,78,38),(115,69,67):(150,100,50),(74,41,64):(126,46,190),(59,57,59):(150,92,20),(67,64,67):(184,116,26),
+ (81,68,78):(184,116,26),(93,86,93):(240,176,56),(112,103,112):(250,200,80),(134,123,134):(255,224,128),
+ (30,34,41):(36,22,10),(46,51,59):(150,92,20),(66,71,82):(184,116,26),(85,92,105):(210,140,34),(102,108,122):(240,176,56),
+ (124,132,145):(250,200,80),(153,161,174):(255,224,128),(35,66,105):(84,52,24),(80,99,144):(122,78,38),
+ (122,130,196):(150,100,50),(181,165,202):(220,170,255),(191,206,231):(255,240,170)}
+def vanilla(name):
+    src=Image.open(os.path.join(VAN,name+'.png')).convert('RGBA')
+    im=Image.new('RGBA',(16,16),(0,0,0,0))
+    for y in range(16):
+        for x in range(16):
+            r,g_,b,a=src.getpixel((x,y))
+            if a==0: continue
+            c=MAP.get((r,g_,b))
+            if c is None:
+                l=(r+g_+b)//3
+                c=(36,22,10) if l<40 else (184,116,26) if l<90 else (240,176,56) if l<140 else (255,224,128)
+            im.putpixel((x,y),c+(255,))
+    return im
 def blank(): return [['.']*16 for _ in range(16)]
 def put(g,x,y,c):
     if 0<=x<16 and 0<=y<16: g[y][x]=c
@@ -127,7 +147,9 @@ def boots():
     rect(g,3,4,6,10,'g'); rect(g,2,10,7,12,'g'); rect(g,9,4,12,10,'g'); rect(g,8,10,13,12,'g')
     rect(g,3,5,6,5,'p'); rect(g,9,5,12,5,'p'); rect(g,2,12,7,12,'p'); rect(g,8,12,13,12,'p')
     return finish(g)
-ITEMS={'legend_mace':(mace,'handheld'),'legend_shovel':(shovel,'handheld'),'legend_sword':(sword,'handheld'),'legend_axe':(axe,'handheld'),'legend_hammer':(hammer,'handheld'),
+def _v(n):
+    return lambda: n
+ITEMS={'legend_mace':(_v('mace'),'handheld'),'legend_shovel':(_v('netherite_shovel'),'handheld'),'legend_sword':(_v('netherite_sword'),'handheld'),'legend_axe':(_v('netherite_axe'),'handheld'),'legend_hammer':(_v('netherite_pickaxe'),'handheld'),
        'legend_helmet':(helmet,'generated'),'legend_chestplate':(chest,'generated'),'legend_leggings':(legs,'generated'),'legend_boots':(boots,'generated')}
 def worn(leg):
     im=Image.new('RGBA',(64,32),(0,0,0,0))
@@ -166,7 +188,7 @@ Image.new('RGBA',(64,64),PAL['g']).save(os.path.join(J,'pack.png'))
 prev=Image.new('RGBA',(16*len(ITEMS)*4,64),(60,60,70,255))
 bt={}
 for i,(name,(fn,parent)) in enumerate(ITEMS.items()):
-    im=img(fn())
+    im=vanilla(fn()) if isinstance(fn(),str) else img(fn())
     p=os.path.join(A,'textures','item',name+'.png'); os.makedirs(os.path.dirname(p),exist_ok=True); im.save(p)
     bp=os.path.join(B,'textures','items',name+'.png'); os.makedirs(os.path.dirname(bp),exist_ok=True); im.save(bp)
     w(os.path.join(A,'models','item',name+'.json'),{"parent":"minecraft:item/"+parent,"textures":{"layer0":"wafflecore:item/"+name}})
@@ -177,8 +199,8 @@ prev.save(os.path.join(OUT,'preview.png'))
 w(os.path.join(A,'equipment','waffle.json'),{"layers":{"humanoid":[{"texture":"wafflecore:waffle"}],"humanoid_leggings":[{"texture":"wafflecore:waffle"}]}})
 for d,leg in (('humanoid',False),('humanoid_leggings',True)):
     p=os.path.join(A,'textures','entity','equipment',d,'waffle.png'); os.makedirs(os.path.dirname(p),exist_ok=True); worn(leg).save(p)
-w(os.path.join(B,'manifest.json'),{"format_version":2,"header":{"name":"WaffleMC Items","description":"WaffleMC custom item textures","uuid":"7f1a2c3e-5b6d-4e8f-9a0b-1c2d3e4f5a6b","version":[1,0,4],"min_engine_version":[1,21,0]},
- "modules":[{"type":"resources","uuid":"8e2b3d4f-6c7e-4f90-8b1c-2d3e4f5a6b7c","version":[1,0,4],"description":"textures"}]})
+w(os.path.join(B,'manifest.json'),{"format_version":2,"header":{"name":"WaffleMC Items","description":"WaffleMC custom item textures","uuid":"7f1a2c3e-5b6d-4e8f-9a0b-1c2d3e4f5a6b","version":[1,0,5],"min_engine_version":[1,21,0]},
+ "modules":[{"type":"resources","uuid":"8e2b3d4f-6c7e-4f90-8b1c-2d3e4f5a6b7c","version":[1,0,5],"description":"textures"}]})
 w(os.path.join(B,'textures','item_texture.json'),{"resource_pack_name":"wafflemc","texture_name":"atlas.items","texture_data":bt})
 Image.new('RGBA',(64,64),PAL['g']).save(os.path.join(B,'pack_icon.png'))
 maps={}

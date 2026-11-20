@@ -40,6 +40,32 @@
         }
       }
     ],
+    "minecraft:mace": [
+      {
+        "type": "definition",
+        "model": "wafflecore:legend_mace",
+        "bedrock_identifier": "wafflecore:legend_mace",
+        "bedrock_options": {
+          "icon": "wafflecore:legend_mace",
+          "allow_offhand": true,
+          "display_handheld": true,
+          "creative_category": "items"
+        }
+      }
+    ],
+    "minecraft:netherite_shovel": [
+      {
+        "type": "definition",
+        "model": "wafflecore:legend_shovel",
+        "bedrock_identifier": "wafflecore:legend_shovel",
+        "bedrock_options": {
+          "icon": "wafflecore:legend_shovel",
+          "allow_offhand": true,
+          "display_handheld": true,
+          "creative_category": "items"
+        }
+      }
+    ],
     "minecraft:netherite_helmet": [
       {
         "type": "definition",

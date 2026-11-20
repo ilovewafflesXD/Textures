@@ -63,6 +63,20 @@ def hammer():
     rect(g,5,1,5,6,'p'); rect(g,14,1,14,6,'p')
     rect(g,9,3,10,4,'P'); put(g,9,3,'h')
     return finish(g)
+def mace():
+    g=blank()
+    for i in range(8): put(g,2+i,14-i,'b' if i%2==0 else 'B')
+    rect(g,8,1,13,6,'g'); rect(g,9,0,12,0,'g'); rect(g,9,7,12,7,'g')
+    for x,y in ((7,3),(7,4),(14,3),(14,4),(10,-1),(11,-1)): put(g,x,y,'p')
+    rect(g,10,3,11,4,'P'); put(g,10,3,'h')
+    rect(g,8,6,13,6,'d')
+    return finish(g)
+def shovel():
+    g=blank()
+    for i in range(9): put(g,2+i,14-i,'b' if i%2==0 else 'B')
+    rect(g,10,1,13,5,'g'); rect(g,11,0,12,0,'g'); rect(g,11,6,12,6,'g')
+    put(g,13,5,'p'); put(g,12,6,'p'); put(g,10,5,'p'); rect(g,11,2,12,3,'P'); put(g,11,2,'h')
+    return finish(g)
 def helmet():
     g=blank()
     rect(g,3,3,12,10,'g'); put(g,3,3,'.'); put(g,12,3,'.')
@@ -88,22 +102,35 @@ def boots():
     rect(g,3,4,6,10,'g'); rect(g,2,10,7,12,'g'); rect(g,9,4,12,10,'g'); rect(g,8,10,13,12,'g')
     rect(g,3,5,6,5,'p'); rect(g,9,5,12,5,'p'); rect(g,2,12,7,12,'p'); rect(g,8,12,13,12,'p')
     return finish(g)
-ITEMS={'legend_sword':(sword,'handheld'),'legend_axe':(axe,'handheld'),'legend_hammer':(hammer,'handheld'),
+ITEMS={'legend_mace':(mace,'handheld'),'legend_shovel':(shovel,'handheld'),'legend_sword':(sword,'handheld'),'legend_axe':(axe,'handheld'),'legend_hammer':(hammer,'handheld'),
        'legend_helmet':(helmet,'generated'),'legend_chestplate':(chest,'generated'),'legend_leggings':(legs,'generated'),'legend_boots':(boots,'generated')}
 def worn(leg):
     im=Image.new('RGBA',(64,32),(0,0,0,0))
-    random.seed(7 if not leg else 9)
-    for y in range(32):
-        for x in range(64):
-            c=PAL['g']
-            if x%4==0 or y%4==0: c=PAL['d']
-            elif (x%4==1 and y%4==1): c=PAL['h']
-            if y%16 in (14,15) : c=PAL['p'] if (x%4)!=0 else PAL['e']
-            im.putpixel((x,y),c)
+    def plate(x0,y0,x1,y1,trim=True):
+        for y in range(y0,y1+1):
+            for x in range(x0,x1+1):
+                c=PAL['g']
+                if x%4==0 or y%4==0: c=PAL['d']
+                elif (x%4==1 and y%4==1): c=PAL['h']
+                if trim and y==y1: c=PAL['p'] if x%4 else PAL['e']
+                im.putpixel((x,y),c)
     if not leg:
-        for y in range(21,25):
-            for x in range(22,26): im.putpixel((x,y),PAL['P'] if (x in(23,24) and y in(22,23)) else PAL['p'])
-        for x in range(8,16): im.putpixel((x,12),PAL['o'])
+        plate(8,0,15,7,False)
+        for r in ((0,8,7,11),(8,8,15,9),(16,8,23,11),(24,8,31,12)): plate(*r)
+        plate(20,16,27,19,False)
+        for r in ((20,20,27,28),(32,20,39,29),(16,20,19,24),(28,20,31,24)): plate(*r)
+        plate(44,16,47,19,False)
+        for r in ((40,20,43,24),(44,20,47,24),(48,20,51,24),(52,20,55,24)): plate(*r)
+        plate(8,16,11,19,False)
+        for r in ((0,28,3,31),(4,28,7,31),(8,28,11,31),(12,28,15,31)): plate(*r)
+        for y in range(22,25):
+            for x in range(23,25): im.putpixel((x,y),PAL['P'])
+        for x in range(8,16): im.putpixel((x,10),PAL['o'])
+    else:
+        plate(28,16,35,19,False)
+        for r in ((16,29,19,31),(20,29,27,31),(28,29,31,31),(32,29,39,31)): plate(*r)
+        plate(4,16,7,19,False)
+        for r in ((0,20,3,25),(4,20,7,25),(8,20,11,25),(12,20,15,25)): plate(*r)
     return im
 def w(path,data):
     os.makedirs(os.path.dirname(path),exist_ok=True)
@@ -125,12 +152,12 @@ prev.save(os.path.join(OUT,'preview.png'))
 w(os.path.join(A,'equipment','waffle.json'),{"layers":{"humanoid":[{"texture":"wafflecore:waffle"}],"humanoid_leggings":[{"texture":"wafflecore:waffle"}]}})
 for d,leg in (('humanoid',False),('humanoid_leggings',True)):
     p=os.path.join(A,'textures','entity','equipment',d,'waffle.png'); os.makedirs(os.path.dirname(p),exist_ok=True); worn(leg).save(p)
-w(os.path.join(B,'manifest.json'),{"format_version":2,"header":{"name":"WaffleMC Items","description":"WaffleMC custom item textures","uuid":"7f1a2c3e-5b6d-4e8f-9a0b-1c2d3e4f5a6b","version":[1,0,1],"min_engine_version":[1,21,0]},
- "modules":[{"type":"resources","uuid":"8e2b3d4f-6c7e-4f90-8b1c-2d3e4f5a6b7c","version":[1,0,1],"description":"textures"}]})
+w(os.path.join(B,'manifest.json'),{"format_version":2,"header":{"name":"WaffleMC Items","description":"WaffleMC custom item textures","uuid":"7f1a2c3e-5b6d-4e8f-9a0b-1c2d3e4f5a6b","version":[1,0,3],"min_engine_version":[1,21,0]},
+ "modules":[{"type":"resources","uuid":"8e2b3d4f-6c7e-4f90-8b1c-2d3e4f5a6b7c","version":[1,0,3],"description":"textures"}]})
 w(os.path.join(B,'textures','item_texture.json'),{"resource_pack_name":"wafflemc","texture_name":"atlas.items","texture_data":bt})
 Image.new('RGBA',(64,64),PAL['g']).save(os.path.join(B,'pack_icon.png'))
 maps={}
-for name,base in (('legend_sword','minecraft:netherite_sword'),('legend_axe','minecraft:netherite_axe'),('legend_hammer','minecraft:netherite_pickaxe')):
+for name,base in (('legend_sword','minecraft:netherite_sword'),('legend_axe','minecraft:netherite_axe'),('legend_hammer','minecraft:netherite_pickaxe'),('legend_mace','minecraft:mace'),('legend_shovel','minecraft:netherite_shovel')):
     maps.setdefault(base,[]).append({"type":"definition","model":"wafflecore:"+name,"bedrock_identifier":"wafflecore:"+name,
       "bedrock_options":{"icon":"wafflecore:"+name,"allow_offhand":True,"display_handheld":True,"creative_category":"items"}})
 w(os.path.join(OUT,'waffle_items.json'),{"format_version":2,"items":maps})

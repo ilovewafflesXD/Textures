@@ -39,6 +39,82 @@
           "creative_category": "items"
         }
       }
+    ],
+    "minecraft:netherite_helmet": [
+      {
+        "type": "definition",
+        "model": "wafflecore:legend_helmet",
+        "bedrock_identifier": "wafflecore:legend_helmet",
+        "bedrock_options": {
+          "icon": "wafflecore:legend_helmet",
+          "allow_offhand": false,
+          "protection_value": 3,
+          "creative_category": "equipment"
+        },
+        "components": {
+          "minecraft:equippable": {
+            "slot": "head"
+          },
+          "minecraft:max_stack_size": 1
+        }
+      }
+    ],
+    "minecraft:netherite_chestplate": [
+      {
+        "type": "definition",
+        "model": "wafflecore:legend_chestplate",
+        "bedrock_identifier": "wafflecore:legend_chestplate",
+        "bedrock_options": {
+          "icon": "wafflecore:legend_chestplate",
+          "allow_offhand": false,
+          "protection_value": 8,
+          "creative_category": "equipment"
+        },
+        "components": {
+          "minecraft:equippable": {
+            "slot": "chest"
+          },
+          "minecraft:max_stack_size": 1
+        }
+      }
+    ],
+    "minecraft:netherite_leggings": [
+      {
+        "type": "definition",
+        "model": "wafflecore:legend_leggings",
+        "bedrock_identifier": "wafflecore:legend_leggings",
+        "bedrock_options": {
+          "icon": "wafflecore:legend_leggings",
+          "allow_offhand": false,
+          "protection_value": 6,
+          "creative_category": "equipment"
+        },
+        "components": {
+          "minecraft:equippable": {
+            "slot": "legs"
+          },
+          "minecraft:max_stack_size": 1
+        }
+      }
+    ],
+    "minecraft:netherite_boots": [
+      {
+        "type": "definition",
+        "model": "wafflecore:legend_boots",
+        "bedrock_identifier": "wafflecore:legend_boots",
+        "bedrock_options": {
+          "icon": "wafflecore:legend_boots",
+          "allow_offhand": false,
+          "protection_value": 3,
+          "creative_category": "equipment"
+        },
+        "components": {
+          "minecraft:equippable": {
+            "slot": "feet"
+          },
+          "minecraft:max_stack_size": 1
+        }
+      }
     ]
   }
 }

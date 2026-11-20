@@ -125,14 +125,29 @@ prev.save(os.path.join(OUT,'preview.png'))
 w(os.path.join(A,'equipment','waffle.json'),{"layers":{"humanoid":[{"texture":"wafflecore:waffle"}],"humanoid_leggings":[{"texture":"wafflecore:waffle"}]}})
 for d,leg in (('humanoid',False),('humanoid_leggings',True)):
     p=os.path.join(A,'textures','entity','equipment',d,'waffle.png'); os.makedirs(os.path.dirname(p),exist_ok=True); worn(leg).save(p)
-w(os.path.join(B,'manifest.json'),{"format_version":2,"header":{"name":"WaffleMC Items","description":"WaffleMC custom item textures","uuid":"7f1a2c3e-5b6d-4e8f-9a0b-1c2d3e4f5a6b","version":[1,0,0],"min_engine_version":[1,21,0]},
- "modules":[{"type":"resources","uuid":"8e2b3d4f-6c7e-4f90-8b1c-2d3e4f5a6b7c","version":[1,0,0],"description":"textures"}]})
+w(os.path.join(B,'manifest.json'),{"format_version":2,"header":{"name":"WaffleMC Items","description":"WaffleMC custom item textures","uuid":"7f1a2c3e-5b6d-4e8f-9a0b-1c2d3e4f5a6b","version":[1,0,1],"min_engine_version":[1,21,0]},
+ "modules":[{"type":"resources","uuid":"8e2b3d4f-6c7e-4f90-8b1c-2d3e4f5a6b7c","version":[1,0,1],"description":"textures"}]})
 w(os.path.join(B,'textures','item_texture.json'),{"resource_pack_name":"wafflemc","texture_name":"atlas.items","texture_data":bt})
 Image.new('RGBA',(64,64),PAL['g']).save(os.path.join(B,'pack_icon.png'))
 maps={}
 for name,base in (('legend_sword','minecraft:netherite_sword'),('legend_axe','minecraft:netherite_axe'),('legend_hammer','minecraft:netherite_pickaxe')):
     maps.setdefault(base,[]).append({"type":"definition","model":"wafflecore:"+name,"bedrock_identifier":"wafflecore:"+name,
       "bedrock_options":{"icon":"wafflecore:"+name,"allow_offhand":True,"display_handheld":True,"creative_category":"items"}})
+w(os.path.join(OUT,'waffle_items.json'),{"format_version":2,"items":maps})
+ARMOR={'helmet':('head','helmet_layer_visible','1',3),'chestplate':('chest','chest_layer_visible','1',8),'leggings':('legs','leg_layer_visible','2',6),'boots':('feet','boot_layer_visible','1',3)}
+for part,(slot,var,layer,prot) in ARMOR.items():
+    ident='wafflecore:legend_'+part
+    w(os.path.join(B,'attachables','legend_'+part+'.attachable.json'),{"format_version":"1.8.0","minecraft:attachable":{"description":{
+      "identifier":ident,"materials":{"default":"armor","enchanted":"armor_enchanted"},
+      "textures":{"default":"textures/models/armor/waffle_"+layer,"enchanted":"textures/misc/enchanted_actor_glint","baby":"textures/models/armor/waffle_"+layer},
+      "geometry":{"default":"geometry.humanoid.armor."+part,"baby":"geometry.humanoid.baby.armor."+part},
+      "scripts":{"parent_setup":"v."+var+" = false;","pre_animation":["v.use_baby_geo = q.is_baby && c.owning_entity->v.use_dedicated_baby_armor;"]},
+      "render_controllers":["controller.render.armor.v2"]}}})
+    maps.setdefault('minecraft:netherite_'+part,[]).append({"type":"definition","model":ident,"bedrock_identifier":ident,
+      "bedrock_options":{"icon":ident,"allow_offhand":False,"protection_value":prot,"creative_category":"equipment"},
+      "components":{"minecraft:equippable":{"slot":slot},"minecraft:max_stack_size":1}})
+for layer,leg in (('1',False),('2',True)):
+    p=os.path.join(B,'textures','models','armor','waffle_'+layer+'.png'); os.makedirs(os.path.dirname(p),exist_ok=True); worn(leg).save(p)
 w(os.path.join(OUT,'waffle_items.json'),{"format_version":2,"items":maps})
 def zipdir(src,dst):
     with zipfile.ZipFile(dst,'w',zipfile.ZIP_DEFLATED) as z:

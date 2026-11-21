@@ -149,7 +149,7 @@ def boots():
     return finish(g)
 def _v(n):
     return lambda: n
-ITEMS={'legend_mace':(_v('mace'),'handheld'),'legend_shovel':(_v('netherite_shovel'),'handheld'),'legend_sword':(_v('netherite_sword'),'handheld'),'legend_axe':(_v('netherite_axe'),'handheld'),'legend_hammer':(_v('netherite_pickaxe'),'handheld'),
+ITEMS={'legend_spear':(_v('netherite_spear'),'handheld'),'legend_mace':(_v('mace'),'handheld'),'legend_shovel':(_v('netherite_shovel'),'handheld'),'legend_sword':(_v('netherite_sword'),'handheld'),'legend_axe':(_v('netherite_axe'),'handheld'),'legend_hammer':(_v('netherite_pickaxe'),'handheld'),
        'legend_helmet':(helmet,'generated'),'legend_chestplate':(chest,'generated'),'legend_leggings':(legs,'generated'),'legend_boots':(boots,'generated')}
 def worn(leg):
     im=Image.new('RGBA',(64,32),(0,0,0,0))
@@ -199,12 +199,12 @@ prev.save(os.path.join(OUT,'preview.png'))
 w(os.path.join(A,'equipment','waffle.json'),{"layers":{"humanoid":[{"texture":"wafflecore:waffle"}],"humanoid_leggings":[{"texture":"wafflecore:waffle"}]}})
 for d,leg in (('humanoid',False),('humanoid_leggings',True)):
     p=os.path.join(A,'textures','entity','equipment',d,'waffle.png'); os.makedirs(os.path.dirname(p),exist_ok=True); worn(leg).save(p)
-w(os.path.join(B,'manifest.json'),{"format_version":2,"header":{"name":"WaffleMC Items","description":"WaffleMC custom item textures","uuid":"7f1a2c3e-5b6d-4e8f-9a0b-1c2d3e4f5a6b","version":[1,0,5],"min_engine_version":[1,21,0]},
- "modules":[{"type":"resources","uuid":"8e2b3d4f-6c7e-4f90-8b1c-2d3e4f5a6b7c","version":[1,0,5],"description":"textures"}]})
+w(os.path.join(B,'manifest.json'),{"format_version":2,"header":{"name":"WaffleMC Items","description":"WaffleMC custom item textures","uuid":"7f1a2c3e-5b6d-4e8f-9a0b-1c2d3e4f5a6b","version":[1,0,6],"min_engine_version":[1,21,0]},
+ "modules":[{"type":"resources","uuid":"8e2b3d4f-6c7e-4f90-8b1c-2d3e4f5a6b7c","version":[1,0,6],"description":"textures"}]})
 w(os.path.join(B,'textures','item_texture.json'),{"resource_pack_name":"wafflemc","texture_name":"atlas.items","texture_data":bt})
 Image.new('RGBA',(64,64),PAL['g']).save(os.path.join(B,'pack_icon.png'))
 maps={}
-for name,base in (('legend_sword','minecraft:netherite_sword'),('legend_axe','minecraft:netherite_axe'),('legend_hammer','minecraft:netherite_pickaxe'),('legend_mace','minecraft:mace'),('legend_shovel','minecraft:netherite_shovel')):
+for name,base in (('legend_sword','minecraft:netherite_sword'),('legend_axe','minecraft:netherite_axe'),('legend_hammer','minecraft:netherite_pickaxe'),('legend_mace','minecraft:mace'),('legend_spear','minecraft:netherite_spear'),('legend_shovel','minecraft:netherite_shovel')):
     maps.setdefault(base,[]).append({"type":"definition","model":"wafflecore:"+name,"bedrock_identifier":"wafflecore:"+name,
       "bedrock_options":{"icon":"wafflecore:"+name,"allow_offhand":True,"display_handheld":True,"creative_category":"items"}})
 w(os.path.join(OUT,'waffle_items.json'),{"format_version":2,"items":maps})

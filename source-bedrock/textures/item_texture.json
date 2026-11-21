@@ -2,6 +2,11 @@
   "resource_pack_name": "wafflemc",
   "texture_name": "atlas.items",
   "texture_data": {
+    "wafflecore:legend_spear": {
+      "textures": [
+        "textures/items/legend_spear"
+      ]
+    },
     "wafflecore:legend_mace": {
       "textures": [
         "textures/items/legend_mace"

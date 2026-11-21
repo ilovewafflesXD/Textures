@@ -53,6 +53,19 @@
         }
       }
     ],
+    "minecraft:netherite_spear": [
+      {
+        "type": "definition",
+        "model": "wafflecore:legend_spear",
+        "bedrock_identifier": "wafflecore:legend_spear",
+        "bedrock_options": {
+          "icon": "wafflecore:legend_spear",
+          "allow_offhand": true,
+          "display_handheld": true,
+          "creative_category": "items"
+        }
+      }
+    ],
     "minecraft:netherite_shovel": [
       {
         "type": "definition",

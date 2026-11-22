@@ -14,9 +14,9 @@ MAP={(35,16,18):(36,22,10),(22,8,20):(36,22,10),(47,33,34):(60,36,16),(50,39,39)
  (122,130,196):(150,100,50),(181,165,202):(220,170,255),(191,206,231):(255,240,170)}
 def vanilla(name):
     src=Image.open(os.path.join(VAN,name+'.png')).convert('RGBA')
-    im=Image.new('RGBA',(16,16),(0,0,0,0))
-    for y in range(16):
-        for x in range(16):
+    im=Image.new('RGBA',src.size,(0,0,0,0))
+    for y in range(src.size[1]):
+        for x in range(src.size[0]):
             r,g_,b,a=src.getpixel((x,y))
             if a==0: continue
             c=MAP.get((r,g_,b))
@@ -199,10 +199,15 @@ prev.save(os.path.join(OUT,'preview.png'))
 w(os.path.join(A,'equipment','waffle.json'),{"layers":{"humanoid":[{"texture":"wafflecore:waffle"}],"humanoid_leggings":[{"texture":"wafflecore:waffle"}]}})
 for d,leg in (('humanoid',False),('humanoid_leggings',True)):
     p=os.path.join(A,'textures','entity','equipment',d,'waffle.png'); os.makedirs(os.path.dirname(p),exist_ok=True); worn(leg).save(p)
-w(os.path.join(B,'manifest.json'),{"format_version":2,"header":{"name":"WaffleMC Items","description":"WaffleMC custom item textures","uuid":"7f1a2c3e-5b6d-4e8f-9a0b-1c2d3e4f5a6b","version":[1,0,6],"min_engine_version":[1,21,0]},
- "modules":[{"type":"resources","uuid":"8e2b3d4f-6c7e-4f90-8b1c-2d3e4f5a6b7c","version":[1,0,6],"description":"textures"}]})
+w(os.path.join(B,'manifest.json'),{"format_version":2,"header":{"name":"WaffleMC Items","description":"WaffleMC custom item textures","uuid":"7f1a2c3e-5b6d-4e8f-9a0b-1c2d3e4f5a6b","version":[1,0,7],"min_engine_version":[1,21,0]},
+ "modules":[{"type":"resources","uuid":"8e2b3d4f-6c7e-4f90-8b1c-2d3e4f5a6b7c","version":[1,0,7],"description":"textures"}]})
 w(os.path.join(B,'textures','item_texture.json'),{"resource_pack_name":"wafflemc","texture_name":"atlas.items","texture_data":bt})
 Image.new('RGBA',(64,64),PAL['g']).save(os.path.join(B,'pack_icon.png'))
+sp=os.path.join(A,'textures','item','legend_spear_in_hand.png'); vanilla('netherite_spear_in_hand').save(sp)
+os.makedirs(os.path.join(B,'textures','items'),exist_ok=True)
+w(os.path.join(A,'models','item','legend_spear_in_hand.json'),{"parent":"minecraft:item/spear_in_hand","textures":{"layer0":"wafflecore:item/legend_spear_in_hand"}})
+w(os.path.join(A,'models','item','legend_spear.json'),{"parent":"minecraft:item/generated","textures":{"layer0":"wafflecore:item/legend_spear"}})
+w(os.path.join(A,'items','legend_spear.json'),{"model":{"type":"minecraft:select","property":"minecraft:display_context","cases":[{"when":["gui","ground","fixed","on_shelf"],"model":{"type":"minecraft:model","model":"wafflecore:item/legend_spear"}}],"fallback":{"type":"minecraft:model","model":"wafflecore:item/legend_spear_in_hand"}},"swap_animation_scale":1.95})
 maps={}
 for name,base in (('legend_sword','minecraft:netherite_sword'),('legend_axe','minecraft:netherite_axe'),('legend_hammer','minecraft:netherite_pickaxe'),('legend_mace','minecraft:mace'),('legend_spear','minecraft:netherite_spear'),('legend_shovel','minecraft:netherite_shovel')):
     maps.setdefault(base,[]).append({"type":"definition","model":"wafflecore:"+name,"bedrock_identifier":"wafflecore:"+name,

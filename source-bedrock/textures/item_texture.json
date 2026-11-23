@@ -2,6 +2,16 @@
   "resource_pack_name": "wafflemc",
   "texture_name": "atlas.items",
   "texture_data": {
+    "wafflecore:legend_elytra": {
+      "textures": [
+        "textures/items/legend_elytra"
+      ]
+    },
+    "wafflecore:legend_shield": {
+      "textures": [
+        "textures/items/legend_shield"
+      ]
+    },
     "wafflecore:legend_spear": {
       "textures": [
         "textures/items/legend_spear"

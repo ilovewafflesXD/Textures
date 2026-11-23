@@ -1,0 +1,10 @@
+{
+  "layers": {
+    "wings": [
+      {
+        "texture": "wafflecore:waffle_elytra",
+        "use_player_texture": true
+      }
+    ]
+  }
+}

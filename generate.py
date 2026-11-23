@@ -147,9 +147,17 @@ def boots():
     rect(g,3,4,6,10,'g'); rect(g,2,10,7,12,'g'); rect(g,9,4,12,10,'g'); rect(g,8,10,13,12,'g')
     rect(g,3,5,6,5,'p'); rect(g,9,5,12,5,'p'); rect(g,2,12,7,12,'p'); rect(g,8,12,13,12,'p')
     return finish(g)
+def shield():
+    g=blank()
+    rect(g,3,1,12,1,'p')
+    rect(g,3,2,12,8,'g'); rect(g,3,2,3,8,'p'); rect(g,12,2,12,8,'p')
+    rect(g,4,9,11,9,'g'); rect(g,5,10,10,10,'g'); rect(g,6,11,9,11,'g'); rect(g,7,12,8,12,'g')
+    put(g,4,9,'p'); put(g,11,9,'p'); put(g,5,10,'p'); put(g,10,10,'p'); put(g,6,11,'p'); put(g,9,11,'p'); rect(g,7,13,8,13,'p')
+    rect(g,7,3,8,10,'P'); rect(g,4,5,11,6,'P'); put(g,7,5,'h')
+    return finish(g)
 def _v(n):
     return lambda: n
-ITEMS={'legend_spear':(_v('netherite_spear'),'handheld'),'legend_mace':(_v('mace'),'handheld'),'legend_shovel':(_v('netherite_shovel'),'handheld'),'legend_sword':(_v('netherite_sword'),'handheld'),'legend_axe':(_v('netherite_axe'),'handheld'),'legend_hammer':(_v('netherite_pickaxe'),'handheld'),
+ITEMS={'legend_elytra':(_v('elytra'),'generated'),'legend_shield':(shield,'generated'),'legend_spear':(_v('netherite_spear'),'handheld'),'legend_mace':(_v('mace'),'handheld'),'legend_shovel':(_v('netherite_shovel'),'handheld'),'legend_sword':(_v('netherite_sword'),'handheld'),'legend_axe':(_v('netherite_axe'),'handheld'),'legend_hammer':(_v('netherite_pickaxe'),'handheld'),
        'legend_helmet':(helmet,'generated'),'legend_chestplate':(chest,'generated'),'legend_leggings':(legs,'generated'),'legend_boots':(boots,'generated')}
 def worn(leg):
     im=Image.new('RGBA',(64,32),(0,0,0,0))
@@ -199,8 +207,8 @@ prev.save(os.path.join(OUT,'preview.png'))
 w(os.path.join(A,'equipment','waffle.json'),{"layers":{"humanoid":[{"texture":"wafflecore:waffle"}],"humanoid_leggings":[{"texture":"wafflecore:waffle"}]}})
 for d,leg in (('humanoid',False),('humanoid_leggings',True)):
     p=os.path.join(A,'textures','entity','equipment',d,'waffle.png'); os.makedirs(os.path.dirname(p),exist_ok=True); worn(leg).save(p)
-w(os.path.join(B,'manifest.json'),{"format_version":2,"header":{"name":"WaffleMC Items","description":"WaffleMC custom item textures","uuid":"7f1a2c3e-5b6d-4e8f-9a0b-1c2d3e4f5a6b","version":[1,0,7],"min_engine_version":[1,21,0]},
- "modules":[{"type":"resources","uuid":"8e2b3d4f-6c7e-4f90-8b1c-2d3e4f5a6b7c","version":[1,0,7],"description":"textures"}]})
+w(os.path.join(B,'manifest.json'),{"format_version":2,"header":{"name":"WaffleMC Items","description":"WaffleMC custom item textures","uuid":"7f1a2c3e-5b6d-4e8f-9a0b-1c2d3e4f5a6b","version":[1,0,8],"min_engine_version":[1,21,0]},
+ "modules":[{"type":"resources","uuid":"8e2b3d4f-6c7e-4f90-8b1c-2d3e4f5a6b7c","version":[1,0,8],"description":"textures"}]})
 w(os.path.join(B,'textures','item_texture.json'),{"resource_pack_name":"wafflemc","texture_name":"atlas.items","texture_data":bt})
 Image.new('RGBA',(64,64),PAL['g']).save(os.path.join(B,'pack_icon.png'))
 sp=os.path.join(A,'textures','item','legend_spear_in_hand.png'); vanilla('netherite_spear_in_hand').save(sp)
@@ -208,8 +216,11 @@ os.makedirs(os.path.join(B,'textures','items'),exist_ok=True)
 w(os.path.join(A,'models','item','legend_spear_in_hand.json'),{"parent":"minecraft:item/spear_in_hand","textures":{"layer0":"wafflecore:item/legend_spear_in_hand"}})
 w(os.path.join(A,'models','item','legend_spear.json'),{"parent":"minecraft:item/generated","textures":{"layer0":"wafflecore:item/legend_spear"}})
 w(os.path.join(A,'items','legend_spear.json'),{"model":{"type":"minecraft:select","property":"minecraft:display_context","cases":[{"when":["gui","ground","fixed","on_shelf"],"model":{"type":"minecraft:model","model":"wafflecore:item/legend_spear"}}],"fallback":{"type":"minecraft:model","model":"wafflecore:item/legend_spear_in_hand"}},"swap_animation_scale":1.95})
+w(os.path.join(A,'items','legend_shield.json'),{"model":{"type":"minecraft:select","property":"minecraft:display_context","cases":[{"when":["gui","ground","fixed","on_shelf"],"model":{"type":"minecraft:model","model":"wafflecore:item/legend_shield"}}],"fallback":{"type":"minecraft:condition","property":"minecraft:using_item","on_false":{"type":"minecraft:special","base":"minecraft:item/shield","model":{"type":"minecraft:shield"}},"on_true":{"type":"minecraft:special","base":"minecraft:item/shield_blocking","model":{"type":"minecraft:shield"}}}}})
+w(os.path.join(A,'equipment','waffle_elytra.json'),{"layers":{"wings":[{"texture":"wafflecore:waffle_elytra","use_player_texture":True}]}})
+wp=os.path.join(A,'textures','entity','equipment','wings','waffle_elytra.png'); os.makedirs(os.path.dirname(wp),exist_ok=True); vanilla('elytra_wings').save(wp)
 maps={}
-for name,base in (('legend_sword','minecraft:netherite_sword'),('legend_axe','minecraft:netherite_axe'),('legend_hammer','minecraft:netherite_pickaxe'),('legend_mace','minecraft:mace'),('legend_spear','minecraft:netherite_spear'),('legend_shovel','minecraft:netherite_shovel')):
+for name,base in (('legend_sword','minecraft:netherite_sword'),('legend_axe','minecraft:netherite_axe'),('legend_hammer','minecraft:netherite_pickaxe'),('legend_mace','minecraft:mace'),('legend_spear','minecraft:netherite_spear'),('legend_elytra','minecraft:elytra'),('legend_shield','minecraft:shield'),('legend_shovel','minecraft:netherite_shovel')):
     maps.setdefault(base,[]).append({"type":"definition","model":"wafflecore:"+name,"bedrock_identifier":"wafflecore:"+name,
       "bedrock_options":{"icon":"wafflecore:"+name,"allow_offhand":True,"display_handheld":True,"creative_category":"items"}})
 w(os.path.join(OUT,'waffle_items.json'),{"format_version":2,"items":maps})

@@ -73,9 +73,15 @@
         "bedrock_identifier": "wafflecore:legend_elytra",
         "bedrock_options": {
           "icon": "wafflecore:legend_elytra",
-          "allow_offhand": true,
-          "display_handheld": true,
-          "creative_category": "items"
+          "allow_offhand": false,
+          "protection_value": 0,
+          "creative_category": "equipment"
+        },
+        "components": {
+          "minecraft:equippable": {
+            "slot": "chest"
+          },
+          "minecraft:max_stack_size": 1
         }
       }
     ],

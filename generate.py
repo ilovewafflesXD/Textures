@@ -207,8 +207,8 @@ prev.save(os.path.join(OUT,'preview.png'))
 w(os.path.join(A,'equipment','waffle.json'),{"layers":{"humanoid":[{"texture":"wafflecore:waffle"}],"humanoid_leggings":[{"texture":"wafflecore:waffle"}]}})
 for d,leg in (('humanoid',False),('humanoid_leggings',True)):
     p=os.path.join(A,'textures','entity','equipment',d,'waffle.png'); os.makedirs(os.path.dirname(p),exist_ok=True); worn(leg).save(p)
-w(os.path.join(B,'manifest.json'),{"format_version":2,"header":{"name":"WaffleMC Items","description":"WaffleMC custom item textures","uuid":"7f1a2c3e-5b6d-4e8f-9a0b-1c2d3e4f5a6b","version":[1,0,8],"min_engine_version":[1,21,0]},
- "modules":[{"type":"resources","uuid":"8e2b3d4f-6c7e-4f90-8b1c-2d3e4f5a6b7c","version":[1,0,8],"description":"textures"}]})
+w(os.path.join(B,'manifest.json'),{"format_version":2,"header":{"name":"WaffleMC Items","description":"WaffleMC custom item textures","uuid":"7f1a2c3e-5b6d-4e8f-9a0b-1c2d3e4f5a6b","version":[1,0,9],"min_engine_version":[1,21,0]},
+ "modules":[{"type":"resources","uuid":"8e2b3d4f-6c7e-4f90-8b1c-2d3e4f5a6b7c","version":[1,0,9],"description":"textures"}]})
 w(os.path.join(B,'textures','item_texture.json'),{"resource_pack_name":"wafflemc","texture_name":"atlas.items","texture_data":bt})
 Image.new('RGBA',(64,64),PAL['g']).save(os.path.join(B,'pack_icon.png'))
 sp=os.path.join(A,'textures','item','legend_spear_in_hand.png'); vanilla('netherite_spear_in_hand').save(sp)
@@ -224,6 +224,18 @@ for name,base in (('legend_sword','minecraft:netherite_sword'),('legend_axe','mi
     maps.setdefault(base,[]).append({"type":"definition","model":"wafflecore:"+name,"bedrock_identifier":"wafflecore:"+name,
       "bedrock_options":{"icon":"wafflecore:"+name,"allow_offhand":True,"display_handheld":True,"creative_category":"items"}})
 w(os.path.join(OUT,'waffle_items.json'),{"format_version":2,"items":maps})
+for e in maps['minecraft:elytra']:
+    if e['bedrock_identifier']=='wafflecore:legend_elytra':
+        e['bedrock_options']={"icon":"wafflecore:legend_elytra","allow_offhand":False,"protection_value":0,"creative_category":"equipment"}
+        e['components']={"minecraft:equippable":{"slot":"chest"},"minecraft:max_stack_size":1}
+w(os.path.join(B,'attachables','legend_elytra.attachable.json'),{"format_version":"1.10.0","minecraft:attachable":{"description":{
+  "identifier":"wafflecore:legend_elytra","materials":{"default":"elytra","enchanted":"elytra_glint"},
+  "textures":{"default":"textures/models/armor/waffle_elytra","enchanted":"textures/misc/enchanted_actor_glint"},
+  "geometry":{"default":"geometry.elytra"},
+  "animations":{"default_controller":"controller.animation.elytra.default","default":"animation.elytra.default","gliding":"animation.elytra.gliding","sneaking":"animation.elytra.sneaking","sleeping":"animation.elytra.sleeping","swimming":"animation.elytra.swimming"},
+  "scripts":{"parent_setup":"variable.chest_layer_visible = 0.0;","animate":["default_controller"]},
+  "render_controllers":["controller.render.armor"]}}})
+_ep=os.path.join(B,'textures','models','armor','waffle_elytra.png'); os.makedirs(os.path.dirname(_ep),exist_ok=True); vanilla('elytra_wings').save(_ep)
 ARMOR={'helmet':('head','helmet_layer_visible','1',3),'chestplate':('chest','chest_layer_visible','1',8),'leggings':('legs','leg_layer_visible','2',6),'boots':('feet','boot_layer_visible','1',3)}
 for part,(slot,var,layer,prot) in ARMOR.items():
     ident='wafflecore:legend_'+part

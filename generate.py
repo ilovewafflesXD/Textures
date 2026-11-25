@@ -157,7 +157,7 @@ def shield():
     return finish(g)
 def _v(n):
     return lambda: n
-ITEMS={'legend_elytra':(_v('elytra'),'generated'),'legend_shield':(shield,'generated'),'legend_spear':(_v('netherite_spear'),'handheld'),'legend_mace':(_v('mace'),'handheld'),'legend_shovel':(_v('netherite_shovel'),'handheld'),'legend_sword':(_v('netherite_sword'),'handheld'),'legend_axe':(_v('netherite_axe'),'handheld'),'legend_hammer':(_v('netherite_pickaxe'),'handheld'),
+ITEMS={'legend_elytra':(_v('elytra'),'generated'),'legend_shield':(shield,'generated'),'legend_spear':(_v('netherite_spear'),'handheld'),'legend_mace':(_v('mace'),'handheld'),'legend_shovel':(_v('netherite_shovel'),'handheld'),'legend_axe':(_v('netherite_axe'),'handheld'),'legend_hammer':(_v('netherite_pickaxe'),'handheld'),
        'legend_helmet':(helmet,'generated'),'legend_chestplate':(chest,'generated'),'legend_leggings':(legs,'generated'),'legend_boots':(boots,'generated')}
 def worn(leg):
     im=Image.new('RGBA',(64,32),(0,0,0,0))
@@ -220,7 +220,7 @@ w(os.path.join(A,'items','legend_shield.json'),{"model":{"type":"minecraft:selec
 w(os.path.join(A,'equipment','waffle_elytra.json'),{"layers":{"wings":[{"texture":"wafflecore:waffle_elytra","use_player_texture":True}]}})
 wp=os.path.join(A,'textures','entity','equipment','wings','waffle_elytra.png'); os.makedirs(os.path.dirname(wp),exist_ok=True); vanilla('elytra_wings').save(wp)
 maps={}
-for name,base in (('legend_sword','minecraft:netherite_sword'),('legend_axe','minecraft:netherite_axe'),('legend_hammer','minecraft:netherite_pickaxe'),('legend_mace','minecraft:mace'),('legend_spear','minecraft:netherite_spear'),('legend_elytra','minecraft:elytra'),('legend_shield','minecraft:shield'),('legend_shovel','minecraft:netherite_shovel')):
+for name,base in (('legend_axe','minecraft:netherite_axe'),('legend_hammer','minecraft:netherite_pickaxe'),('legend_mace','minecraft:mace'),('legend_spear','minecraft:netherite_spear'),('legend_elytra','minecraft:elytra'),('legend_shield','minecraft:shield'),('legend_shovel','minecraft:netherite_shovel')):
     maps.setdefault(base,[]).append({"type":"definition","model":"wafflecore:"+name,"bedrock_identifier":"wafflecore:"+name,
       "bedrock_options":{"icon":"wafflecore:"+name,"allow_offhand":True,"display_handheld":True,"creative_category":"items"}})
 w(os.path.join(OUT,'waffle_items.json'),{"format_version":2,"items":maps})

@@ -27,11 +27,6 @@
         "textures/items/legend_shovel"
       ]
     },
-    "wafflecore:legend_sword": {
-      "textures": [
-        "textures/items/legend_sword"
-      ]
-    },
     "wafflecore:legend_axe": {
       "textures": [
         "textures/items/legend_axe"

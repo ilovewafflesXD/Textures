@@ -251,6 +251,7 @@ for part,(slot,var,layer,prot) in ARMOR.items():
       "components":{"minecraft:equippable":{"slot":slot},"minecraft:max_stack_size":1}})
 for layer,leg in (('1',False),('2',True)):
     p=os.path.join(B,'textures','models','armor','waffle_'+layer+'.png'); os.makedirs(os.path.dirname(p),exist_ok=True); worn(leg).save(p)
+maps.pop("minecraft:shield",None)
 w(os.path.join(OUT,'waffle_items.json'),{"format_version":2,"items":maps})
 def add_outlines(J):
     import shutil

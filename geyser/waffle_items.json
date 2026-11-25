@@ -85,19 +85,6 @@
         }
       }
     ],
-    "minecraft:shield": [
-      {
-        "type": "definition",
-        "model": "wafflecore:legend_shield",
-        "bedrock_identifier": "wafflecore:legend_shield",
-        "bedrock_options": {
-          "icon": "wafflecore:legend_shield",
-          "allow_offhand": true,
-          "display_handheld": true,
-          "creative_category": "items"
-        }
-      }
-    ],
     "minecraft:netherite_shovel": [
       {
         "type": "definition",

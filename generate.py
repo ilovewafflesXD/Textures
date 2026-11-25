@@ -237,6 +237,7 @@ w(os.path.join(B,'attachables','legend_elytra.attachable.json'),{"format_version
   "render_controllers":["controller.render.armor"]}}})
 _ep=os.path.join(B,'textures','models','armor','waffle_elytra.png'); os.makedirs(os.path.dirname(_ep),exist_ok=True); vanilla('elytra_wings').save(_ep)
 vanilla('elytra_wings').save(os.path.join(B,'textures','models','armor','elytra.png'))
+os.makedirs(os.path.join(B,'textures','entity'),exist_ok=True); import shutil as _sh; _sh.copy(os.path.join(os.path.dirname(os.path.abspath(__file__)),'shield_gold.png'),os.path.join(B,'textures','entity','shield.png'))
 ARMOR={'helmet':('head','helmet_layer_visible','1',3),'chestplate':('chest','chest_layer_visible','1',8),'leggings':('legs','leg_layer_visible','2',6),'boots':('feet','boot_layer_visible','1',3)}
 for part,(slot,var,layer,prot) in ARMOR.items():
     ident='wafflecore:legend_'+part
